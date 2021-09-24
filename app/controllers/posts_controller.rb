@@ -2,10 +2,18 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
 
   # GET /posts or /posts.json
-  def index
-    @posts = Post.all
-  end
+  # def index
+  #   @posts = Post.all
+  # end
 
+  def index
+      @posts = Post.all
+      @search = params["search"]
+      if @search.present?
+        @title = @search["title"]
+        @posts = Post.where("title ILIKE ?", "%#{@title}%")
+      end
+    end
   # GET /posts/1 or /posts/1.json
   def show
   end
